@@ -1,0 +1,46 @@
+function trainMagery() {
+    const castSpellDelay = 3000;
+    const skillValueGoal = 1000;
+    const target = Player.Serial();
+    const useSkillDelay = 10250;
+    var skillValue = Orion.SkillValue('magery', 'real');
+
+    circuitBreaker(skillValue);
+
+    while (skillValue < skillValueGoal) {
+        if (skillValue < 450)
+            var spell = 'Greater Heal';
+        else if (skillValue < 550)
+            var spell = 'Mana Drain';
+        else if (skillValue < 700)
+            var spell = 'Invisibility';
+        else
+            var spell = 'Mana Vampire';
+
+        while (Player.Mana() < 40) {
+            var meditating = false;
+            while (!meditating) {
+                Orion.ClearJournal();
+                Orion.UseSkill('meditation');
+                Orion.Wait(250);
+                if (Orion.InJournal('You cannot focus your concentration|You stop meditating'))
+                    Orion.Wait(useSkillDelay);
+                else
+                    var meditating = true;
+            }
+            Orion.WaitJournal('You are at peace', 0, Orion.Now() + 60000);
+        }
+
+        Orion.Cast(spell, target);
+        Orion.Wait(castSpellDelay);
+
+        skillValue = Orion.SkillValue('magery', 'real');
+    }
+}
+
+function circuitBreaker(skillValue) {
+    if (skillValue < 150) {
+        Orion.Print('[Error] trainMagery: Train skill to 45.0 before proceeding.');
+        Orion.Terminate('trainMagery');
+    }
+}

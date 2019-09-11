@@ -1,0 +1,44 @@
+var evalTarget = Orion.FindObject('evalTarget');
+var currentSkill = Orion.SkillValue('Forensic Evaluation', 'base');
+var skillCap = Orion.SkillValue('Forensic Evaluation', 'cap');
+
+function StartForensicEvaluation()
+{
+	//Orion.RemoveObject('beggingTarget')
+	setTarget();
+	Orion.Wait(1000);
+	ForensicEvaluation();
+}
+
+function ForensicEvaluation()
+{
+	while (currentSkill != skillCap)
+	{
+		if (currentSkill == skillCap)
+		{
+			Orion.Print( '-1', 'Your Forensic Evaluation is now ' + currentSkill );
+			return;
+		}
+		Orion.UseSkill('Forensic Evaluation', 'evalTarget');
+		Orion.Wait(13500);
+	}
+}
+
+
+function setTarget()
+{	
+	//if(beggingTarget == null || beggingTarget == 0)
+	//{
+        //Orion.Print( '-1', 'No chosen pet found');
+		//Orion.RemoveObject('chosenPet');
+		Orion.RemoveObject('evalTarget');
+		Orion.Wait(1000);
+		Orion.Print( '-1', 'Please select your Eval Target...');
+		Orion.AddObject('evalTarget');
+		while(Orion.HaveTarget())
+            {
+                Orion.Wait('50');
+            }
+        	evalTarget = Orion.FindObject('evalTarget');
+	//}
+}

@@ -1,0 +1,44 @@
+var idTarget = Orion.FindObject('tasteTarget');
+var currentSkill = Orion.SkillValue('Taste Identification', 'base');
+var skillCap = Orion.SkillValue('Taste Identification', 'cap');
+
+function StartTasteIdentification()
+{
+	//Orion.RemoveObject('beggingTarget')
+	setTarget();
+	Orion.Wait(1000);
+	TasteIdentification();
+}
+
+function TasteIdentification()
+{
+	while (currentSkill != skillCap)
+	{
+		if (currentSkill == skillCap)
+		{
+			Orion.Print( '-1', 'Your Taste Identification is now ' + currentSkill );
+			return;
+		}
+		Orion.UseSkill('Taste Identification', 'tasteTarget');
+		Orion.Wait(13500);
+	}
+}
+
+
+function setTarget()
+{	
+	//if(beggingTarget == null || beggingTarget == 0)
+	//{
+        //Orion.Print( '-1', 'No chosen pet found');
+		//Orion.RemoveObject('chosenPet');
+		Orion.RemoveObject('tasteTarget');
+		Orion.Wait(1000);
+		Orion.Print( '-1', 'Please select your tasteID Target...');
+		Orion.AddObject('tasteTarget');
+		while(Orion.HaveTarget())
+            {
+                Orion.Wait('50');
+            }
+        	beggingTarget = Orion.FindObject('tasteTarget');
+	//}
+}
