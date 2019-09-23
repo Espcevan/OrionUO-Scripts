@@ -1,0 +1,43 @@
+var beggingTarget = Orion.FindObject('beggingTarget');
+var currentSkill = Orion.SkillValue('Begging', 'base');
+var skillCap = Orion.SkillValue('Begging', 'cap');
+
+function StartBegging()
+{
+	//Orion.RemoveObject('beggingTarget')
+	setTarget();
+	Orion.Wait(1000);
+	Begging();
+}
+
+function Begging()
+{
+	while (currentSkill != skillCap)
+	{
+		Orion.UseSkill('Begging', 'beggingTarget');
+		Orion.Wait(13500);
+	}
+	if (currentSkill == skillCap)
+	{
+		Orion.Print( '-1', 'Your Begging is now ' + currentSkill );
+	}
+}
+
+
+function setTarget()
+{	
+	//if(beggingTarget == null || beggingTarget == 0)
+	//{
+        //Orion.Print( '-1', 'No chosen pet found');
+		//Orion.RemoveObject('chosenPet');
+		Orion.RemoveObject('beggingTarget');
+		Orion.Wait(1000);
+		Orion.Print( '-1', 'Please select your Begging Target...');
+		Orion.AddObject('beggingTarget');
+		while(Orion.HaveTarget())
+            {
+                Orion.Wait('50');
+            }
+        	beggingTarget = Orion.FindObject('beggingTarget');
+	//}
+}

@@ -1,0 +1,10 @@
+
+	while ( Orion.SkillValue('Animal Lore', 'real') < Orion.SkillValue('Animal Lore', 'cap') )
+	{
+		Orion.UseSkill('Animal Lore', lasttarget);
+		
+		//Orion.WaitGump(0xD937D1DB);
+		
+		Orion.WaitGump([id='0xD937D1DB']);
+		
+	}

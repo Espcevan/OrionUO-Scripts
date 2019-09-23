@@ -1,0 +1,53 @@
+function trainBushido()
+{
+	const castSpellDelay = 7000;
+    	const skillValueGoal = 1000;
+    	const target = Player.Serial();
+    	const useSkillDelay = 10250;
+    	var skillValue = Orion.SkillValue('Bushido', 'real');
+
+    	circuitBreaker(skillValue);
+
+    	while (skillValue < skillValueGoal) 
+    	{
+       	if (skillValue < 600)
+            	var spell = 'Confidence';
+        	else if (skillValue < 750)
+            	var spell = 'Counter Attack';
+        	else //if (skillValue < 960)
+            	var spell = 'Evasion';
+
+        	while (Player.Mana() < 20) 
+        	{
+            	var meditating = false;
+            	while (!meditating) 
+            	{
+            		
+				Orion.BlockMoving(true);
+                		Orion.ClearJournal();
+                		Orion.UseSkill('meditation');
+                		Orion.Wait(250);
+                		if (Orion.InJournal('You cannot focus your concentration|You stop meditating'))
+                    		Orion.Wait(useSkillDelay);
+                		else
+                    		var meditating = true;
+            	}
+            	Orion.WaitJournal('You are at peace', 0, Orion.Now() + 60000);
+            		Orion.BlockMoving(false);
+		}
+
+        	Orion.Cast(spell, target);
+        	Orion.Wait(castSpellDelay);
+
+        	skillValue = Orion.SkillValue('Bushido', 'real');
+    	}
+}
+
+function circuitBreaker(skillValue)
+{
+    if (skillValue < 300) 
+    {
+        Orion.Print('[Error] trainBushido: Train skill to 30.0 before proceeding.');
+        Orion.Terminate('trainBushido');
+    }
+}
