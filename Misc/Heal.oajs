@@ -1,0 +1,56 @@
+var isPoisoned = 'feel a bit';
+var isCured = 'You have been cured';
+var bandageFinished = 'You finish applying';
+
+function UseBandage()
+{
+	//var Health = Player.Hits();
+	
+	while (!Player.Dead())
+	{
+		//var cureMe = Orion.WaitJournal(isPoisoned, Orion.Now(), Orion.Now() + 1000, 'sys|my');
+		//if(cureMe != null)
+		if (Player.Poisoned())
+		{
+			
+			Orion.Cast('Cure', self);
+			//Orion.Wait(3100);
+			//Orion.ClearJournal();
+		}
+	
+		if (Player.Hits() < 200)
+		{
+			
+			//Orion.BandageSelf();
+			Orion.WaitTargetObject(self);
+			Orion.UseObject('everlastingBandage');
+			Orion.Wait(7500);
+			//var doneHeal = Orion.WaitJournal(bandageFinished, Orion.Now(), Orion.Now() + 7500, 'sys|my');
+			//if(doneHeal != null)
+			//{
+				//Orion.Print('Done Healing...')
+				//Orion.Wait(100);
+			//}
+			
+			//Orion.ClearJournal();
+		}
+	}
+}
+
+
+function HealCureMiniSpell()
+{
+	while (!Player.Dead())
+	{
+    		if (Player.Poisoned())
+    		{
+        		Orion.Cast('Cure', 'Self');
+        		Orion.Wait(2500);
+   	 	}
+    		else if (Player.Hits() < 200) 
+    		{
+       		Orion.Cast('Heal', 'Self');
+       		Orion.Wait(2500);
+    		}
+	}
+}

@@ -1,0 +1,13 @@
+function FindMob() 
+{
+	var mobs = Orion.FindType('!0x0190|!0x0191', '-1', ground, 'near|mobile', '15', 'red|gray|criminal');
+	if (mobs.length)
+	{
+		while (mobs.length)
+		{
+			Orion.Wait(250);
+			Orion.Attack(mobs[0]);
+			break;
+		}
+	}
+}
