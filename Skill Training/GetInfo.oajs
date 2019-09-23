@@ -1,0 +1,113 @@
+//Orion.Info();
+
+var Text1 = 'biting|closer|cannot';
+var gotfishText = 'You catch|fail to catch';
+var SearchText = Text1 + '|' + gotfishText;
+
+function SetTarget()
+{
+
+        //var chosenTile = Orion.FindType('chosenTile');
+        //if(chosenTile == null || chosenTile == 0)
+        //{
+        //	Orion.Print( '-1', 'No chosen Tile found');
+        //	Orion.Print( '-1', 'Target your Tile.');
+        //	Orion.AddType('chosenTile');
+        //	while(Orion.HaveTarget())
+	//	{
+        //    	Orion.Wait('50');
+        //    }
+        //	chosenTile = Orion.FindType('chosenTile');
+	//}
+
+	Orion.CharPrint(self, '100', '~*Set Fishing Target*~');
+	Orion.UseType('fishingPole');
+	Orion.Wait('100');
+        	while(Orion.HaveTarget())
+		{
+            	Orion.Wait('50');
+            }
+	Orion.CharPrint(self, '100', '~*Target Set*~');
+
+			var msg = Orion.WaitJournal(SearchText, Orion.Now(), Orion.Now() + 15000, 'sys|my');
+			if (msg != null)
+			{
+				var text = msg.Text();
+				if (Orion.Contains(text, gotfishText))
+				{
+					Orion.CharPrint(self, '100', '~*GOT ONE!*~');
+					Orion.WarMode(false);
+					Fish();
+				}
+				else if (Orion.Contains(text, Text1))
+				{
+					if (Player.Weight() >= Player.MaxWeight())
+					{
+						Orion.CharPrint(self, '100', '~*Unload Your Fish*~');
+						break;
+					}
+					else
+					{
+						Orion.CharPrint(self, '100', '~*There is no more fish here.*~');
+						Orion.Wait(500);
+						Orion.CharPrint(self, '100', '~*Stopping Script.*~');
+						break;
+					}
+					//break;
+				}
+			}
+	
+	//Fish();
+}
+
+function Fish()
+{
+
+	while (!Player.Dead())
+	{	
+	
+		//Orion.WaitTargetObject('chosenTile');
+		
+		//Orion.TargetObject(lasttarget);
+		//Orion.WaitTargetTile();
+		Orion.WaitTargetTile(lasttile);
+		Orion.UseType('fishingPole');
+		//Orion.Wait(15000);
+		
+		
+		
+			var msg = Orion.WaitJournal(SearchText, Orion.Now(), Orion.Now() + 15000, 'sys|my');
+			if (msg != null)
+			{
+				var text = msg.Text();
+				if (Orion.Contains(text, gotfishText))
+				{
+					Orion.CharPrint(self, '100', '~*GOT ONE!*~');
+					Orion.WarMode(false);
+					//Orion.Wait(100);
+				}
+				else if (Orion.Contains(text, Text1))
+				{
+					if (Player.Weight() >= Player.MaxWeight())
+					{
+						Orion.CharPrint(self, '100', '~*Unload Your Fish*~');
+						break;
+					}
+					else
+					{
+						Orion.CharPrint(self, '100', '~*There is no more fish here.*~');
+						Orion.Wait(500);
+						Orion.CharPrint(self, '100', '~*Stopping Script.*~');
+						break;
+					}
+					//break;
+				}
+			}
+		
+		
+		
+	
+		Orion.Print('Done');
+	
+	}
+}
